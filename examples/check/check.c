@@ -9,7 +9,8 @@
 struct cordic_result example_fail_check(struct cordic_args args) {
     (void)args;
 
-    return (struct cordic_result) { 42 };
+    cordic_assert(1 == 2);
+    cordic_success;
 }
 
 int main(void) {
