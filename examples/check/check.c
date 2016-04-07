@@ -6,10 +6,18 @@
 
 #include <cordic.h>
 
-struct cordic_result example_fail_check(struct cordic_args args) {
+struct cordic_result example_success(struct cordic_args args) {
     (void)args;
 
-    cordic_assert(1 == 2);
+    cordic_success;
+}
+
+struct cordic_result example_failure(struct cordic_args args) {
+    (void)args;
+
+    cordic_assert(1 == 1);
+    cordic_assert(1 == 2, "1 does not equal 2!");
+
     cordic_success;
 }
 
