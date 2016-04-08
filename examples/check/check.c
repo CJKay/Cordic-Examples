@@ -25,22 +25,34 @@ cordic_test(example_warn) {
     cordic_warn(1 != 3, "1 does not equal 3!");
 }
 
+cordic_suite(example_suite, NULL, NULL,
+    &example_success,
+    &example_failure,
+    &example_warn
+);
+
 #ifdef __STDC_HOSTED__
 int main(void) {
-    example_success.run(&example_success);
-    printf("%d\n", example_success.failed);
+    for(unsigned int i = 0; i < example_suite.num_tests; i++) {
+        struct cordic_test *test = example_suite.tests[i];
+        test->run(test);
 
-    example_failure.run(&example_failure);
-    printf("%d\n", example_failure.failed);
-    printf("%d, \"%s\", \"%s\"\n", example_failure.error.line,
-        example_failure.error.cond, example_failure.error.msg);
+        printf("Suite: %s\n", example_suite.name);
+        printf("%s: %d warnings, test %s\n", test->name, test->num_warnings,
+            test->failed ? "failed" : "succeeded");
 
-    example_warn.run(&example_warn);
-    printf("%d\n", example_warn.num_warnings);
-    printf("%d, \"%s\"\n", example_warn.warnings[0].line,
-        example_warn.warnings[0].cond);
-    printf("%d, \"%s\", \"%s\"\n", example_warn.warnings[1].line,
-        example_warn.warnings[1].cond, example_warn.warnings[1].msg);
+        for(unsigned int j = 0; j < test->num_warnings; j++) {
+            printf("    Warning: \"%s\" failed on line %d: \"%s\"\n",
+                test->warnings[j].cond, test->warnings[j].line,
+                test->warnings[j].msg);
+        }
+
+        if(test->failed) {
+            printf("    Error: \"%s\" failed on line %d: \"%s\"\n",
+                test->error.cond, test->error.line,
+                test->error.msg);
+        }
+    }
 
     return 0;
 }
