@@ -58,7 +58,7 @@ int main(void) {
         printf("Test %s %s:\n", test->name,
             test->failed ? "failed" : "succeeded");
         printf("    %d warnings\n", test->num_warnings);
-        for(unsigned int j = 0; j < test->num_warnings; ++j) {
+        for(unsigned int j = 0; j < test->num_warnings; j++) {
             struct cordic_result *warning = &test->warnings[j];
 
             printf("    Warning: line %d, condition \"%s\"", warning->line,
@@ -67,8 +67,10 @@ int main(void) {
                 printf(": %s", warning->msg);
             printf("\n");
 
-            if((j + 1) > CORDIC_MAX_WARNINGS) {
-                printf("    And %d more warnings...\n", test->num_warnings - j);
+            if(j + 1 == CORDIC_MAX_WARNINGS) {
+                printf("    And %d more warning(s)...\n", test->num_warnings -
+                    j - 1);
+
                 break;
             }
         }

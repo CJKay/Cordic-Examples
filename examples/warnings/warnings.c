@@ -4,6 +4,7 @@
  * obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+
 #include <cordic.h>
 
 #ifdef __STDC_HOSTED__
@@ -11,13 +12,9 @@
 #endif
 
 cordic_test(basic_test) {
-    cordic_warn(1 != 1);
-    cordic_warn(1 != 2);
-    cordic_warn(1 != 2, "This will definitely warn!");
-
-    cordic_assert(1 == 1);
-    cordic_assert(1 == 1, "This will never assert!");
-    cordic_assert(1 == 2, "This will definitely assert!");;
+    for(int i = 0; i <= CORDIC_MAX_WARNINGS; i++) {
+        cordic_warn(true);
+    }
 }
 
 cordic_suite(basic_suite, NULL, NULL,
