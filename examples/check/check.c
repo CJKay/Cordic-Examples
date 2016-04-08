@@ -6,6 +6,10 @@
 
 #include <cordic.h>
 
+#ifdef __STDC_HOSTED__
+#include <stdio.h>
+#endif
+
 struct cordic_result example_success(struct cordic_args args) {
     (void)args;
 
@@ -21,6 +25,18 @@ struct cordic_result example_failure(struct cordic_args args) {
     cordic_success;
 }
 
+#ifdef __STDC_HOSTED__
 int main(void) {
+    struct cordic_args args = { 0 };
+
+    struct cordic_result success = example_success(args);
+    printf("%d, %p, %p, %p\n", success.line, (void *)success.file,
+        (void *)success.fn, (void *)success.msg);
+
+    struct cordic_result failure = example_failure(args);
+    printf("%d, \"%s\", \"%s\", \"%s\"\n", failure.line, failure.file,
+        failure.fn, failure.msg);
+
     return 0;
 }
+#endif
