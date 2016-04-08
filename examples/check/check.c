@@ -10,26 +10,37 @@
 #include <stdio.h>
 #endif
 
-struct cordic_result example_success(cordic_args) {
-    cordic_success;
+cordic_test(example_success) {
+    cordic_assert(1 == 1);
+    cordic_assert(1 == 1, "1 does equal 1!");
 }
 
-struct cordic_result example_failure(cordic_args) {
-    cordic_assert(1 == 1);
+cordic_test(example_failure) {
     cordic_assert(1 == 2, "1 does not equal 2!");
+}
 
-    cordic_success;
+cordic_test(example_warn) {
+    cordic_warn(1 != 1);
+    cordic_warn(1 != 2);
+    cordic_warn(1 != 3, "1 does not equal 3!");
 }
 
 #ifdef __STDC_HOSTED__
 int main(void) {
-    struct cordic_result success = example_success();
-    printf("%d, \"%s\", \"%s\", %p\n", success.line, (void *)success.file,
-        (void *)success.fn, (void *)success.msg);
+    example_success.run(&example_success);
+    printf("%d\n", example_success.failed);
 
-    struct cordic_result failure = example_failure();
-    printf("%d, \"%s\", \"%s\", \"%s\"\n", failure.line, failure.file,
-        failure.fn, failure.msg);
+    example_failure.run(&example_failure);
+    printf("%d\n", example_failure.failed);
+    printf("%d, \"%s\", \"%s\"\n", example_failure.error.line,
+        example_failure.error.cond, example_failure.error.msg);
+
+    example_warn.run(&example_warn);
+    printf("%d\n", example_warn.num_warnings);
+    printf("%d, \"%s\"\n", example_warn.warnings[0].line,
+        example_warn.warnings[0].cond);
+    printf("%d, \"%s\", \"%s\"\n", example_warn.warnings[1].line,
+        example_warn.warnings[1].cond, example_warn.warnings[1].msg);
 
     return 0;
 }
