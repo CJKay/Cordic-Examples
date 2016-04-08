@@ -25,7 +25,7 @@ cordic_test(example_warn) {
     cordic_warn(1 != 3, "1 does not equal 3!");
 }
 
-cordic_suite(example_suite, NULL, NULL,
+cordic_suite(example_suite, NULL, NULL, NULL,
     &example_success,
     &example_failure,
     &example_warn
