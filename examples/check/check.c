@@ -24,7 +24,7 @@ struct cordic_result example_failure(cordic_args) {
 #ifdef __STDC_HOSTED__
 int main(void) {
     struct cordic_result success = example_success();
-    printf("%d, %p, %p, %p\n", success.line, (void *)success.file,
+    printf("%d, \"%s\", \"%s\", %p\n", success.line, (void *)success.file,
         (void *)success.fn, (void *)success.msg);
 
     struct cordic_result failure = example_failure();
