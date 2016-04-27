@@ -8,12 +8,13 @@
 # Add a prefix to all values in a list.                                        #
 ################################################################################
 
-function(add_prefix out prefix values)
-    set(tmp "")
+function(add_prefix out prefix)
+    unset(${out})
 
-    foreach(value "${values}")
-        list(APPEND tmp "${prefix}${value}")
+    foreach(value ${ARGN})
+        set(value "${prefix}${value}")
+        list(APPEND ${out} ${value})
     endforeach()
 
-    set(${out} ${tmp} PARENT_SCOPE)
+    set(${out} ${${out}} PARENT_SCOPE)
 endfunction()
