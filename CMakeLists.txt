@@ -16,7 +16,7 @@ foreach(example ${examples})
     if(IS_DIRECTORY "${example}")
         get_filename_component(name "${example}" NAME)
 
-        set(sources "")
+        unset(sources)
 
         add_subdirectory("${example}")
         add_prefix(sources "${example}/" ${sources})
